@@ -190,9 +190,5 @@ The model is now being trained. You will be able to download it within a few hou
 ## Import the Custom Models
 
 1. Download your custom voice model(s) from [Picovoice Console](https://console.picovoice.ai/).
-1. Decompress the zip file. The model file is either `.ppn` for Porcupine wake word or `.rhn` for Rhino Speech-to-Intent.
-1. Use [binary_to_c_array.py](./scripts/binary_to_c_array.py) to convert your binary models to C array format  utilizing the following command:
-```bash
-python3 binary_to_c_array.py --binary_file_path INPUT_MODEL --array_file_path OUTPUT_FILE.TXT
-```
-1. Copy the content of `output_c_array.txt` and update the `keyword_array` and `context_array` values in [/include/pv_params.h](./include/pv_params.h).
+2. Decompress the zip file. The model file is either `.ppn` for Porcupine wake word or `.rhn` for Rhino Speech-to-Intent. Both zip archives also contain a `.h` header file containing the `C` array version of the binary model.
+3. Copy the contents of the arrays inside the `.h` header files and update the `KEYWORD_ARRAY` (Porcupine) and `CONTEXT_ARRAY` (Rhino) values in [/include/pv_params.h](./include/pv_params.h).
