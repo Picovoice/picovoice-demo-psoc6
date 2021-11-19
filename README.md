@@ -1,7 +1,13 @@
-
-# Picovoice PSoC 6 Demo
+# Picovoice PSoC 6 Demo (Multiple languages)
 
 This package contains a demo project for the CY8CKIT-062S2-43012 kit using Picovoice platform.
+
+## Supported Languages
+
+1. English
+2. French
+3. German
+4. Spanish
 
 ## Requirements
 
@@ -20,12 +26,20 @@ This package contains a demo project for the CY8CKIT-062S2-43012 kit using Picov
 
 - [PSoC&trade; 62S2 Wi-Fi Bluetooth&reg; pioneer kit](https://www.cypress.com/CY8CKIT-062S2-43012) (`CY8CKIT-062S2-43012`)
 
-
 ## Installation
 
 For this demo, you need to:
 1. Download and install [ModusToolBox](https://www.cypress.com/products/modustoolbox).
 1. Install a serial port monitor on your system to be able to communicate with the board. [Arduino environment's built-in serial monitor](https://www.arduino.cc/en/software) and [Coolterm](https://freeware.the-meiers.org/) are two free options available on all platforms (Windows, Linux, and macOS).
+
+## AccessKey
+
+Picovoice requires a valid `AccessKey` at initialization. `AccessKey`s act as your credentials when using Picovoice SDKs.
+You can create your `AccessKey` for free. Make sure to keep your `AccessKey` secret.
+
+To obtain your `AccessKey`:
+1. Login or Signup for a free account on the [Picovoice Console](https://picovoice.ai/console/).
+2. Once logged in, go to the [`AccessKey` tab](https://console.picovoice.ai/access_key) to create one or use an existing `AccessKey`.
 
 ## Usage
 
@@ -95,7 +109,11 @@ Various CLI tools include a `-h` option that prints help information to the term
 
 1. Connect the board to your PC using the provided USB cable through the USB connector.
 
-2. Program the board using one of the following:
+2. Replace `ACCESS_KEY` in [`main.c`](main.c) with your AccessKey obtained from [Picovoice Console](https://picovoice.ai/console/).
+
+3. **Optional**: The default langauge is English (`PICOVOICE_EN`). Select a different language by replacing the `COMPONENTS=` make variable in the [`Makefile`](Makefile) with your selected language. ie. `COMPONENTS=PICOVOICE_DE` for German language support.
+
+4. Program the board using one of the following:
 
    <details><summary><b>Using Eclipse IDE for ModusToolbox</b></summary>
 
@@ -117,7 +135,16 @@ Various CLI tools include a `-h` option that prints help information to the term
       ```
 </details>
 
-For this demo, the default wake word is `Picovoice` and the context is `Smart Lighting`. The engine can recognize commands such as
+For these demos, the default wake words and the context are:
+
+| Language | Wake word        | Context                 |
+|----------|------------------|-------------------------|
+| English  | Picovoice        | Smart lighting          |
+| French   | Salut ordinateur | éclairage intelligent   |
+| German   | Hey computer     | Beleuchtung             |
+| Spanish  | Hola computadora | Iluminación inteligente |
+
+In case of English version, after uploading the firmware to the microcontroller, the engine can recognize commands such as:
 
 > Picovoice, turn off the lights.
 
@@ -125,9 +152,9 @@ or
 
 > Picovoice, set the lights in the bedroom to blue.
 
-Picovoice's output can be seen on the serial port monitor.
+See below for the full contexts:
 
-See below for the full context:
+### English context
 
 ```yaml
 context:
@@ -178,6 +205,128 @@ context:
       - "living room"
       - "pantry"
 ```
+
+### French context
+
+```yaml
+context:
+  expressions:
+    changeColor:
+      - "[Mets, Mettez, Allume, Allumez, Change, Changez] [les, la] [lumières, lumière] (en) $color:color"
+      - "[Mets, Mettez, Allume, Allumez, Change, Changez] [les, la] [lumières, lumière] [du, de la, dans la, dans le] $location:location (en) $color:color"
+    changeLightStateOff:
+      - "[Éteins, Éteignez] [les, la] [lumières, lumière]"
+      - "[Éteins, Éteignez] [les, la] [lumières, lumière] [du, de la] $location:location"
+      - "[Éteins, Éteignez] [les, la] [lumières, lumière] [dans la, dans le] $location:location"
+    changeLightStateOn:
+      - "[Allume, Allumez] [les, la] [lumières, lumière]"
+      - "[Allume, Allumez] [les, la] [lumières, lumière] [du, de la] $location:location"
+      - "[Allume, Allumez] [les, la] [lumières, lumière] [dans la, dans le, dans l'] $location:location"
+  slots:
+    color:
+      - bleu
+      - vert
+      - orange
+      - rose
+      - violet
+      - rouge
+      - blanc
+      - jaune
+    location:
+      - salle de bain
+      - toilettes
+      - chambre
+      - chambre à coucher
+      - penderie
+      - placard
+      - couloir
+      - cuisine
+      - salle de séjour
+      - salon
+      - garde manger
+```
+
+### German context
+
+```yaml
+context:
+  expressions:
+    changeColor:
+      - "[färbe, ändere, mache] (alle, die, das) [Licht, Lichter] (zu, in)
+        $color:color"
+      - "[färbe, ändere, mache] (alle, die, das) (Licht, Lichter) (im)
+        $location:location (Licht, Lichter) (zu, in) $color:color"
+    changeState:
+      - (Mache) (alle, die, das) [Licht, Lichter] $state:state
+      - (Mache) (alle, die, das) $location:location [Licht, Lichter] $state:state
+      - (Mache) (alle, die, das) [Licht, Lichter] im $location:location
+        $state:state
+  slots:
+    color:
+      - blau
+      - grün
+      - orange
+      - pink
+      - lila
+      - rot
+      - weiß
+      - gelb
+    state:
+      - an
+      - aus
+    location:
+      - Badezimmer
+      - Schlafzimmer
+      - Kinderzimmer
+      - Flur
+      - Küche
+      - Wohnzimmer
+      - Speisekammer
+```
+
+### Spanish context
+
+```yaml
+context:
+  expressions:
+    changeColor:
+      - haz que las luces sean $color:color
+      - cambia las luces a $color:color
+      - haz que [la, las] [luz, luces] [del, de la, en el, en la]
+        $location:location [sea, sean] $color:color
+      - cambia [la, las] [luz, luces] [del, de la, en el, en la]
+        $location:location a $color:color
+      - haz que [sea, sean] $color:color [la, las] [luz, luces] [del, de la, en
+        el, en la] $location:location
+      - cambia a $color:color [la, las] [luz, luces] [del, de la, en el, en la]
+        $location:location
+    changeLightState:
+      - $action:action (todas) las luces
+      - $action:action (la, las) [luz, luces] [del, de la, en el, en la]
+        $location:location
+  slots:
+    color:
+      - azul
+      - verde
+      - rosado
+      - morado
+      - rojo
+      - blanco
+      - amarillo
+    location:
+      - baño
+      - armario
+      - cocina
+      - sala
+      - despensa
+      - dormitorio
+      - habitación
+      - pasillo
+    action:
+      - encienda
+      - apaga
+```
+
 ## Create Custom Models
 
 1. Copy the UUID of the board printed at the beginning of the session to the serial port monitor.
