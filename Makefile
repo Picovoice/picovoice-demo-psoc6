@@ -79,7 +79,24 @@ VERBOSE=
 # ... then code in directories named COMPONENT_foo and COMPONENT_bar will be
 # added to the build
 #
-COMPONENTS=
+#
+# ## Picovoice ##
+# Use this section to select specific Picovoice language support.
+# Below are the available components and their corresponding language:
+#
+#    PICOVOICE_EN - English
+#    PICOVOICE_DE - German
+#    PICOVOICE_ES - Spanish
+#    PICOVOICE_FR - French
+#
+# Add the desired language by specifying it in the make variable.
+# For example, the following would enable German Picovoice language support:
+#
+#    COMPONENTS=PICOVOICE_DE
+#
+# English is enabled by default.
+# NOTE: Only one Picovoice component should be enabled at a time.
+COMPONENTS=PICOVOICE_EN
 
 # Like COMPONENTS, but disable optional code that was enabled by default.
 DISABLE_COMPONENTS=
