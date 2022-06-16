@@ -114,8 +114,8 @@ int main(void) {
             sizeof(CONTEXT_ARRAY),
             CONTEXT_ARRAY,
             RHINO_SENSITIVITY,
-			RHINO_ENDPOINT_DURATION_SEC,
-			RHINO_REQUIRE_ENDPOINT,
+            RHINO_ENDPOINT_DURATION_SEC,
+            RHINO_REQUIRE_ENDPOINT,
             inference_callback,
             &handle);
     if (status != PV_STATUS_SUCCESS) {
